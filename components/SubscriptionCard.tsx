@@ -44,7 +44,7 @@ const SubscriptionCard = ({
         </View>
 
         <View className="sub-price-box">
-          <Text className="sub-price">{formatCurrency(price)}</Text>
+          <Text className="sub-price">{formatCurrency(price, currency)}</Text>
           <Text className="sub-billing">{billing}</Text>
         </View>
       </View>
@@ -60,7 +60,7 @@ const SubscriptionCard = ({
                   numberOfLines={1}
                   ellipsizeMode="tail"
                 >
-                  {paymentMethod?.trim()}
+                  {paymentMethod?.trim() ?? "Not provided"}
                 </Text>
               </View>
             </View>

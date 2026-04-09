@@ -13,7 +13,7 @@ import "@/global.css";
 import { formatCurrency } from "@/lib/utils";
 import dayjs from "dayjs";
 import { styled } from "nativewind";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FlatList, Image, Text, View } from "react-native";
 import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 
@@ -24,53 +24,56 @@ export default function App() {
     string | null
   >(null);
 
+  const listHeader = useMemo(
+    () => (
+      <>
+        <View className="home-header">
+          <View className="home-user">
+            <Image source={images.avatar} className="home-avatar" />
+            <Text className="home-user-name">{HOME_USER.name}</Text>
+          </View>
+
+          <Image source={icons.add} className="home-add-icon" />
+        </View>
+
+        <View className="home-balance-card">
+          <Text className="home-balance-label">Balance</Text>
+
+          <View className="home-balance-row">
+            <Text className="home-balance-amount">
+              {formatCurrency(HOME_BALANCE.amount)}
+            </Text>
+            <Text className="home-balance-date">
+              {dayjs(HOME_BALANCE.nextRenewalDate).format("MM/DD/YY")}
+            </Text>
+          </View>
+        </View>
+
+        <View className="mb-5">
+          <ListHeading title="Upcoming" />
+
+          <FlatList
+            data={UPCOMING_SUBSCRIPTIONS}
+            renderItem={({ item }) => <UpcomingSubscriptionCard {...item} />}
+            keyExtractor={(item) => item.id}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            ListEmptyComponent={
+              <Text className="home-empty">No upcoming renewals yet.</Text>
+            }
+          />
+        </View>
+
+        <ListHeading title="All Subscriptions" />
+      </>
+    ),
+    [],
+  );
+
   return (
     <SafeAreaView className="flex-1 bg-background p-5">
       <FlatList
-        ListHeaderComponent={() => (
-          <>
-            <View className="home-header">
-              <View className="home-user">
-                <Image source={images.avatar} className="home-avatar" />
-                <Text className="home-user-name">{HOME_USER.name}</Text>
-              </View>
-
-              <Image source={icons.add} className="home-add-icon" />
-            </View>
-
-            <View className="home-balance-card">
-              <Text className="home-balance-label">Balance</Text>
-
-              <View className="home-balance-row">
-                <Text className="home-balance-amount">
-                  {formatCurrency(HOME_BALANCE.amount)}
-                </Text>
-                <Text className="home-balance-date">
-                  {dayjs(HOME_BALANCE.nextRenewalDate).format("MM/DD/YY")}
-                </Text>
-              </View>
-            </View>
-
-            <View className="mb-5">
-              <ListHeading title="Upcoming" />
-
-              <FlatList
-                data={UPCOMING_SUBSCRIPTIONS}
-                renderItem={({ item }) => (
-                  <UpcomingSubscriptionCard {...item} />
-                )}
-                keyExtractor={(item) => item.id}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                ListEmptyComponent={
-                  <Text className="home-empty">No upoming renewals yet.</Text>
-                }
-              />
-            </View>
-
-            <ListHeading title="All Subscriptions" />
-          </>
-        )}
+        ListHeaderComponent={listHeader}
         data={HOME_SUBSCRIPTIONS}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
