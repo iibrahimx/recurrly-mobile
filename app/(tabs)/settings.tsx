@@ -1,11 +1,26 @@
 import images from "@/constants/images";
 import { styled } from "nativewind";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 
 const SafeAreaView = styled(RNSafeAreaView);
 
 const Settings = () => {
+  const handlePressPlaceholder = (label: string) => {
+    Alert.alert("Coming Soon", `${label} feature is not implemented yet.`);
+  };
+
+  const handleLogout = () => {
+    try {
+      // Placeholder logout logic (no auth system yet)
+      Alert.alert("Logged Out", "You have been logged out successfully.");
+      // In real app: clear tokens / auth.signOut() / navigation reset
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      Alert.alert("Error", "Failed to log out. Please try again.");
+    }
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-background px-5 pt-5">
       {/* Header */}
@@ -32,15 +47,24 @@ const Settings = () => {
           Preferences
         </Text>
 
-        <TouchableOpacity className="py-3">
+        <TouchableOpacity
+          className="py-3"
+          onPress={() => handlePressPlaceholder("Notifications")}
+        >
           <Text className="text-dark">Notifications</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity className="py-3">
+        <TouchableOpacity
+          className="py-3"
+          onPress={() => handlePressPlaceholder("Appearance")}
+        >
           <Text className="text-dark">Appearance</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity className="py-3">
+        <TouchableOpacity
+          className="py-3"
+          onPress={() => handlePressPlaceholder("Currency")}
+        >
           <Text className="text-dark">Currency</Text>
         </TouchableOpacity>
       </View>
@@ -51,21 +75,33 @@ const Settings = () => {
           Support
         </Text>
 
-        <TouchableOpacity className="py-3">
+        <TouchableOpacity
+          className="py-3"
+          onPress={() => handlePressPlaceholder("Help Center")}
+        >
           <Text className="text-dark">Help Center</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity className="py-3">
+        <TouchableOpacity
+          className="py-3"
+          onPress={() => handlePressPlaceholder("Contact Us")}
+        >
           <Text className="text-dark">Contact Us</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity className="py-3">
+        <TouchableOpacity
+          className="py-3"
+          onPress={() => handlePressPlaceholder("About App")}
+        >
           <Text className="text-dark">About App</Text>
         </TouchableOpacity>
       </View>
 
       {/* Logout */}
-      <TouchableOpacity className="bg-red-500 rounded-xl py-4 items-center">
+      <TouchableOpacity
+        className="bg-red-500 rounded-xl py-4 items-center"
+        onPress={handleLogout}
+      >
         <Text className="text-white font-semibold">Log Out</Text>
       </TouchableOpacity>
     </SafeAreaView>
